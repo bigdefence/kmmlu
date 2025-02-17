@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    container_name: criminal-law-agent
+    restart: unless-stopped
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    command: ["python", "main.py"]

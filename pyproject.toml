@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "agent_system"
+version = "0.1.0"
+description = "Agent system for evaluating KMMLU Criminal Law dataset with retrieval augmentation"
+authors = ["정강빈 <wjdrkdqls12@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+openai = "^1.61.1"
+numpy = "^1.23.0"
+PyPDF2 = "^3.0.1"
+tqdm = "^4.64.0"
+datasets = "^2.10.0"
+langchain = "^0.3.9"
+python-dotenv = "^1.0.0"
+faiss-cpu = "^1.7.3"
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
