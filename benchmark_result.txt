@@ -1,5 +1,5 @@
 {
- "batch_id": "batch_67b272bf296881909ea37e858ff07451",
- "duration_seconds": 2603.9177668094635,
+ "batch_id": "batch_67b2c5e43924819083183e7e221b557e",
+ "duration_seconds": 2696.1948013305664,
  "accuracy_percentage": "38.5%"
 }

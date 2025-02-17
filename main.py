@@ -261,8 +261,8 @@ class CriminalLawAgent:
             print("Error saving benchmark results:", e)
 
 def main():
-    input_file_name = "batchinput.jsonl"
-    output_file_name = "batchoutput.jsonl"
+    input_file_name = "input.jsonl"
+    output_file_name = "output.jsonl"
     benchmark_file_name = "benchmark_result.txt"
 
     agent = CriminalLawAgent(
