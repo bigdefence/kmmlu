@@ -1,57 +1,80 @@
-# Criminal Law Agent
+# 📘 Criminal Law AI Evaluation
 
-이 프로젝트는 한국어 형사법 시험 문제를 OpenAI 임베딩과 Faiss 인덱스를 이용해 풀어보는 예시입니다.  
-Poetry를 사용하여 의존성을 관리하고, Docker 컨테이너에서 스크립트를 실행합니다.
+## 🔍 프로젝트 개요
+Criminal Law AI Evaluation은 OpenAI의 GPT 모델을 활용하여 형법 관련 문제를 해결하고 평가하는 프로젝트입니다. 
+주어진 형법 관련 질문에 대해 AI가 정답을 예측하며, PDF 문서를 기반으로 검색 및 응답 생성을 수행합니다.
 
----
+## 📂 프로젝트 구조
+```
+📦 프로젝트 폴더
+├── main.py               # 메인 실행 파일
+├── input.jsonl           # AI에 입력될 질문 데이터
+├── output.jsonl          # AI의 응답 결과
+├── benchmark_result.txt  # 벤치마크 결과
+├── embedding/            # PDF 임베딩 저장 폴더
+│   ├── 형사소송법.pdf      # 법률 문서 파일
+│   ├── batch_형소법_cache.pkl  # FAISS 임베딩 캐시 파일
+└── README.md             # 프로젝트 설명 파일
+```
 
-## 구성 요소
+## ⚙️ 주요 기능
+- **법률 문서 분석**: PDF 문서에서 텍스트를 추출하고 정제하여 AI 모델의 학습 데이터로 사용
+- **문서 검색 및 임베딩**: FAISS를 이용한 빠른 문서 검색 기능 제공
+- **AI를 통한 법률 문제 풀이**: OpenAI API를 활용한 형법 문제 풀이 및 평가 수행
+- **배치 평가**: 다수의 질문을 한 번에 처리하고 정확도를 평가하는 기능 포함
 
-1. **main.py**  
-   - 형사소송법 PDF를 읽어 Faiss 인덱스 구축
-   - KMMLU 데이터셋(형법 영역)을 사용하여 테스트
-   - 배치 형태로 OpenAI API 호출 (예시)
-   - 정확도(Accuracy) 계산 및 결과 저장
+## 🛠️ 설치 및 실행 방법
+### 1️⃣ 환경 설정
+Python이 설치되어 있어야 하며, 필요한 패키지를 설치해야 합니다.
+```sh
+pip install -r requirements.txt
+```
 
-2. **pyproject.toml / poetry.lock**  
-   - Poetry로 Python 의존성 관리
+### 2️⃣ 환경 변수 설정
+`.env` 파일을 생성하고 OpenAI API 키를 추가하세요.
+```
+OPENAI_API_KEY=your_openai_api_key
+```
 
-3. **Dockerfile**  
-   - Python:3.10 기반 이미지
-   - Poetry 설치 후 `main.py` 실행
+### 3️⃣ 프로젝트 실행
+```sh
+python main.py
+```
 
-4. **docker-compose.yml**  
-   - `docker-compose`로 Docker 빌드 및 실행 자동화
-   - `.env` 파일에 있는 환경변수를 컨테이너 내로 전달
+## 📌 주요 코드 설명
+### 📜 `main.py`
+- `evaluate()` : AI의 응답을 평가하여 정확도를 계산하는 함수
+- `clean_text()` : 텍스트 전처리를 수행하는 함수
+- `get_embedding()` : OpenAI API를 활용하여 텍스트 임베딩을 생성하는 함수
+- `extract_text_from_pdf()` : PDF 문서에서 텍스트를 추출하는 함수
+- `split_text_into_chunks()` : 문서를 일정 크기로 나누는 함수
+- `CriminalLawAgent` 클래스
+  - `build_retrieval_corpus()` : PDF 문서의 검색 인덱스를 구축하는 메서드
+  - `retrieve_context()` : 질의어와 관련된 문서를 검색하는 메서드
+  - `generate_prompt()` : AI가 응답할 프롬프트를 생성하는 메서드
+  - `run_evaluation()` : AI의 문제 풀이 및 평가 수행
 
-5. **.env**  
-   - `OPENAI_API_KEY` 환경 변수를 포함해야 합니다.
-   - 예: `OPENAI_API_KEY=sk-xxxxx`
+## 📊 벤치마크 결과 예시
+성능 평가 결과는 `benchmark_result.txt` 파일에 저장됩니다. 
 
-6. **embedding/형사소송법.pdf**  
-   - 스크립트에서 참조할 PDF 파일  
-   - 만약 다른 파일명이면 `main.py`에서 pdf_list 경로를 적절히 수정해야 함
+```json
+{
+ "batch_id": "batch_xxxxx",
+ "duration_seconds": 2696.1948013305664,
+ "accuracy_percentage": "38.5%"
+}
+```
 
----
+## 📌 사용 기술
+- **Python**: 프로젝트 전체 구현
+- **OpenAI API**: GPT 모델을 이용한 응답 생성
+- **FAISS**: 문서 검색 및 유사도 분석
+- **PyPDF2**: PDF 문서 처리
 
-## 사전 준비
+## 🏗️ 향후 개선 방향
+- 다양한 법률 문서 추가 지원
+- 문서 검색 최적화 및 속도 개선
+- AI 모델의 성능 향상 및 피드백 반영
 
-1. **OpenAI API Key 발급**  
-   - [OpenAI](https://platform.openai.com/)에서 API Key를 발급받고, `.env` 파일에 `OPENAI_API_KEY`로 설정
-
-2. **Docker 및 docker-compose 설치**  
-   - [Docker 설치 가이드](https://docs.docker.com/get-docker/) 참조
-   - 보통 최신 Docker Desktop 설치 시 `docker compose`(V2)도 같이 설치됩니다.
-
-3. **프로젝트 구조**  
-   - 위에 제시된 디렉토리 구조대로 파일들을 배치
-   - `.env` 파일(환경변수) 준비
-
----
-
-## 설치 및 실행 방법
-
-### 1) Docker 이미지 빌드
-
-```bash
-docker-compose up --build -d
+## 📄 라이선스
+본 프로젝트는 MIT 라이선스를 따릅니다.
