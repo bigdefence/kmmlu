@@ -14,6 +14,10 @@ Criminal Law AI Evaluation은 OpenAI의 GPT 모델을 활용하여 형법 관련
 ├── embedding/            # PDF 임베딩 저장 폴더
 │   ├── 형사소송법.pdf      # 법률 문서 파일
 │   ├── batch_형소법_cache.pkl  # FAISS 임베딩 캐시 파일
+├── pyproject.toml        # Poetry 의존성 관리 파일
+├── poetry.lock           # Poetry 종속성 버전 잠금 파일
+├── Dockerfile            # Docker 이미지 구성 파일
+├── docker-compose.yml    # Docker Compose 설정 파일
 └── README.md             # 프로젝트 설명 파일
 ```
 
@@ -22,12 +26,14 @@ Criminal Law AI Evaluation은 OpenAI의 GPT 모델을 활용하여 형법 관련
 - **문서 검색 및 임베딩**: FAISS를 이용한 빠른 문서 검색 기능 제공
 - **AI를 통한 법률 문제 풀이**: OpenAI API를 활용한 형법 문제 풀이 및 평가 수행
 - **배치 평가**: 다수의 질문을 한 번에 처리하고 정확도를 평가하는 기능 포함
+- **Docker 컨테이너 지원**: Docker 및 Docker Compose를 이용하여 손쉽게 실행 가능
 
 ## 🛠️ 설치 및 실행 방법
 ### 1️⃣ 환경 설정
-Python이 설치되어 있어야 하며, 필요한 패키지를 설치해야 합니다.
+Python 및 Docker가 설치되어 있어야 하며, 필요한 패키지를 Poetry를 이용해 설치합니다.
 ```sh
-pip install -r requirements.txt
+pip install poetry
+docker-compose up --build -d
 ```
 
 ### 2️⃣ 환경 변수 설정
@@ -36,9 +42,9 @@ pip install -r requirements.txt
 OPENAI_API_KEY=your_openai_api_key
 ```
 
-### 3️⃣ 프로젝트 실행
+### 3️⃣ 프로젝트 실행 (Docker 활용)
 ```sh
-python main.py
+docker-compose up --build -d
 ```
 
 ## 📌 주요 코드 설명
@@ -65,16 +71,36 @@ python main.py
 }
 ```
 
+## 🐳 Docker 사용 방법
+### 1️⃣ Docker 이미지 빌드 및 실행
+```sh
+docker-compose up --build -d
+```
+
+### 2️⃣ 컨테이너 상태 확인
+```sh
+docker ps
+```
+
+### 3️⃣ 컨테이너 종료
+```sh
+docker-compose down
+```
+
 ## 📌 사용 기술
 - **Python**: 프로젝트 전체 구현
 - **OpenAI API**: GPT 모델을 이용한 응답 생성
 - **FAISS**: 문서 검색 및 유사도 분석
 - **PyPDF2**: PDF 문서 처리
+- **Poetry**: Python 의존성 관리
+- **Docker & Docker Compose**: 컨테이너화된 실행 환경 제공
 
 ## 🏗️ 향후 개선 방향
 - 다양한 법률 문서 추가 지원
 - 문서 검색 최적화 및 속도 개선
 - AI 모델의 성능 향상 및 피드백 반영
+- 컨테이너 최적화 및 경량화
 
 ## 📄 라이선스
 본 프로젝트는 MIT 라이선스를 따릅니다.
+
